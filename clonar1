@@ -1,0 +1,49 @@
+#!/bin/bash
+
+entorno="$HOME/Escritorio/venv"
+directorio="$entorno/instituto"
+repo="https://gitlab.com/Naueru2/Instituto210.git"
+echo "creando entorno virtual"
+if [ ! -d "$entorno" ]
+then
+    python3 -m venv "$entorno"
+    echo "Entorno virtual creado"
+else
+    echo "Ya existe, señor"
+fi
+
+source "$entorno/bin/activate"
+echo "clonando repositorio"
+sleep 0.5
+if [ ! -d "$directorio" ]
+then
+    git clone "$repo" "$directorio"
+    echo "Repositorio clonado con exito"
+else
+    echo "El directorio ya existe"
+fi
+echo "se activo el entorno virtual"
+sleep 0.5
+source /$HOME/Escritorio/venv/bin/activate
+echo "instalando dependencias"
+sleep 0.5
+pip install django
+cd "$HOME/Escritorio/venv/instituto/gestionInstituto"
+mv settingsodl.py settings.py
+cd "$HOME/Escritorio/venv/instituto/"
+pip install pillow
+git checkout front
+python3 manage.py migrate
+python3 manage.py migrate --run-syncdb
+cd "$HOME/Escritorio/venv/instituto"
+sudo rm db.sqlite3
+python3 manage.py migrate
+python3 manage.py migrate --run-syncdb
+echo "usuario y contraseña para ingrear a la pagina"
+sleep 0.2
+python3 manage.py createsuperuser
+echo "corriendo el servidor..."
+python3 manage.py runserver &
+xdg-open http://127.0.0.1:8000/
+
+echo "termino el proceso"
