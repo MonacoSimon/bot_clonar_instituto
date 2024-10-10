@@ -1,6 +1,6 @@
 #!/bin/bash
 
-entorno="$HOME/Escritorio/venv"
+entorno="$HOME/vane/Escritorio/venv"
 directorio="$entorno/instituto"
 repo="https://gitlab.com/Naueru2/Instituto210.git"
 echo "creando entorno virtual"
@@ -24,18 +24,18 @@ else
 fi
 echo "se activo el entorno virtual"
 sleep 0.5
-source /$HOME/Escritorio/venv/bin/activate
+source /$HOME/vane/Escritorio/venv/bin/activate
 echo "instalando dependencias"
 sleep 0.5
 pip install django
-cd "$HOME/Escritorio/venv/instituto/gestionInstituto"
+cd "$HOME/vane/Escritorio/venv/instituto/gestionInstituto"
 mv settingsodl.py settings.py
 cd "$HOME/Escritorio/venv/instituto/"
 pip install pillow
 git checkout front
 python3 manage.py migrate
 python3 manage.py migrate --run-syncdb
-cd "$HOME/Escritorio/venv/instituto"
+cd "$HOME/vane/Escritorio/venv/instituto"
 sudo rm db.sqlite3
 python3 manage.py migrate
 python3 manage.py migrate --run-syncdb
